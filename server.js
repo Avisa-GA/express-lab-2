@@ -11,19 +11,29 @@ const magicBall = ["It is certain", "It is decidedly so", "Without a doubt", "Ye
 let randomAnswers = magicBall[Math.floor(Math.random() * magicBall.length)]
 
 // define our routes
-// routers run code as reponse to a request
+
 app.get('/greeting/:name', (req, res) => {
     res.send('Wow! Hello there, ' + req.params.name)
 })
 
 app.get('/tip/:total/:tipPercentage', (req, res) => {
-     res.send('Your tip is: ' + parseInt(req.params.tipPercentage))
+     res.send('Your tip is: ' + parseInt((req.params.tipPercentage/100)*req.params.total))
 })
 
 app.get('/magic/:id', (req, res) => {
-    res.send(req.params.id + '?' + ' Answer: ' + randomAnswers)
+
+    res.send(`
+       <html>
+           <body>
+           <br>
+                <p>${req.params.id}?</p>
+                <h1>${randomAnswers}</h1>
+           </body>
+       </html>
+     `)
 })
 
+// listen to port   
 app.listen(port, () => {
     console.log('Express is listening on port', port)
 })
